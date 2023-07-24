@@ -1,7 +1,6 @@
-package decorator;
 import java.text.NumberFormat;
 
-public class ProductPattern implements Product {
+public class ProdutoPadrao implements Produto {
 
 	private static final String SEPARADOR = ", ";
 
@@ -11,7 +10,7 @@ public class ProductPattern implements Product {
 	private int qtdEstoque;
 	private double preco;
 
-	public ProductPattern(int id, String descricao, String categoria, int qtdEstoque, double preco){
+	public ProdutoPadrao(int id, String descricao, String categoria, int qtdEstoque, double preco){
 
 		setId(id);
 		setDescricao(descricao);
