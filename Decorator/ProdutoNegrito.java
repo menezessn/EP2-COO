@@ -7,7 +7,7 @@ public class ProdutoNegrito extends ProdutoDecorator {
 	
 	@Override
 	public String formataParaImpressao() {
-		return "<span style=\"font-weight:italic\">" + super.formataParaImpressao() + "</span>" ;
+		return "<span style=\"font-weight:bold\">" + super.formataParaImpressao() + "</span>" ;
 	}
 	
 }
