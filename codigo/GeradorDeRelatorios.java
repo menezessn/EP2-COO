@@ -5,20 +5,20 @@ import java.io.IOException;
 
 import java.util.*;
 
-import decorator.Produto;
-import decorator.ProdutoItalico;
-import decorator.ProdutoNegrito;
-import decorator.ProdutoPadrao;
+import decorator.Product;
+import decorator.ProductItalic;
+import decorator.ProductBold;
+import decorator.ProductPattern;
 import strategy.algorithm.Algorithm;
 import strategy.algorithm.InsertionSort;
 import strategy.algorithm.QuickSort;
-import strategy.criterio.Criterio;
-import strategy.criterio.DescCresc;
-import strategy.criterio.DescDecresc;
-import strategy.criterio.EstoqueCresc;
-import strategy.criterio.EstoqueDecresc;
-import strategy.criterio.PrecoCresc;
-import strategy.criterio.PrecoDecresc;
+import strategy.criterio.Standards;
+import strategy.criterio.DescriptionGrowing;
+import strategy.criterio.DescriptionDescending;
+import strategy.criterio.StockGrowing;
+import strategy.criterio.StockDescending;
+import strategy.criterio.PriceGrowing;
+import strategy.criterio.PriceDescending;
 import strategy.filtro.CategoriaIgual;
 import strategy.filtro.DescricaoContem;
 import strategy.filtro.EstoqueMenorIgual;
@@ -49,24 +49,24 @@ public class GeradorDeRelatorios {
 	public static final int FORMATO_NEGRITO = 0b0001;
 	public static final int FORMATO_ITALICO = 0b0010;
 
-	private ArrayList<Produto> produtos;
+	private ArrayList<Product> products;
 	private Filtro filtro;
 	private Algorithm algorithm;
-	private Criterio criterio;
+	private Standards standards;
 	private String argFiltro;
 
-	public GeradorDeRelatorios(ArrayList<Produto> produtos, Algorithm algorithm, Criterio criterio, Filtro filtro, String argFiltro) {
+	public GeradorDeRelatorios(ArrayList<Product> products, Algorithm algorithm, Standards standards, Filtro filtro, String argFiltro) {
 
-		this.produtos = new ArrayList<Produto>(produtos);
+		this.products = new ArrayList<Product>(products);
 
 		this.algorithm = algorithm;
-		this.criterio = criterio;
+		this.standards = standards;
 		this.filtro = filtro;
 	}
 
 	public void debug() {
 
-		System.out.println("Gerando relatório para array contendo " + produtos.size() + " produto(s)");
+		System.out.println("Gerando relatório para array contendo " + products.size() + " produto(s)");
 		System.out.println("parametro filtro = '" + argFiltro + "'");
 	}
 
@@ -74,7 +74,7 @@ public class GeradorDeRelatorios {
 
 		debug();
 
-		algorithm.order(produtos, criterio);
+		algorithm.order(products, standards);
 
 		PrintWriter out = new PrintWriter(arquivoSaida);
 
@@ -86,9 +86,9 @@ public class GeradorDeRelatorios {
 
 		int count = 0;
 
-		for (int i = 0; i < produtos.size(); i++) {
+		for (int i = 0; i < products.size(); i++) {
 
-			Produto p = produtos.get(i);
+			Product p = products.get(i);
 			
 			if(filtro.equals(p)){
 
@@ -102,32 +102,32 @@ public class GeradorDeRelatorios {
 		}
 
 		out.println("</ul>");
-		out.println(count + " produtos listados, de um total de " + produtos.size() + ".");
+		out.println(count + " produtos listados, de um total de " + products.size() + ".");
 		out.println("</body>");
 		out.println("</html>");
 
 		out.close();
 	}
 
-	public static ArrayList<Produto> carregaProdutos(File dados) throws FileNotFoundException {
-		ArrayList<Produto> list = new ArrayList<Produto>();
+	public static ArrayList<Product> carregaProdutos(File dados) throws FileNotFoundException {
+		ArrayList<Product> list = new ArrayList<Product>();
 
 		try (Scanner scanner = new Scanner(dados)) {
 			scanner.useDelimiter(",");
 
 			while (scanner.hasNextLine()) {
-				Produto produto = new ProdutoPadrao(
+				Product product = new ProductPattern(
 						scanner.nextInt(),
 						scanner.next(),
 						scanner.next(),
 						scanner.nextInt(),
 						scanner.nextDouble());
 				if (scanner.nextBoolean() == true)
-					produto = new ProdutoNegrito(produto);
+					product = new ProductBold(product);
 				if (scanner.nextBoolean() == true)
-					produto = new ProdutoItalico(produto);
+					product = new ProductItalic(product);
 					
-				list.add(produto);
+				list.add(product);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -172,26 +172,26 @@ public class GeradorDeRelatorios {
 				throw new RuntimeException("Algoritmo inválido!");
 		}
 
-		Criterio criterioOrdenacao;
+		Standards standardsOrdenacao;
 
 		switch (opcao_criterio_ord) {
 			case CRIT_DESC_CRESC:
-				criterioOrdenacao = new DescCresc();
+				standardsOrdenacao = new DescriptionGrowing();
 				break;
 			case CRIT_PRECO_CRESC:
-				criterioOrdenacao = new PrecoCresc();
+				standardsOrdenacao = new PriceGrowing();
 				break;
 			case CRIT_ESTOQUE_CRESC:
-				criterioOrdenacao = new EstoqueCresc();
+				standardsOrdenacao = new StockGrowing();
 				break;
 			case CRIT_DESC_DECRESC:
-				criterioOrdenacao = new DescDecresc();
+				standardsOrdenacao = new DescriptionDescending();
 				break;
 			case CRIT_PRECO_DECRESC:
-				criterioOrdenacao = new PrecoDecresc();
+				standardsOrdenacao = new PriceDescending();
 				break;
 			case CRIT_ESTOQUE_DECRESC:
-				criterioOrdenacao = new EstoqueDecresc();
+				standardsOrdenacao = new StockDescending();
 				break;
 			default:
 				throw new RuntimeException("Critério de ordenação inválido!");
@@ -225,7 +225,7 @@ public class GeradorDeRelatorios {
 		GeradorDeRelatorios gdr = new GeradorDeRelatorios(
 				carregaProdutos(new File(nome_do_arquivo)),
 				algorithm,
-				criterioOrdenacao,
+				standardsOrdenacao,
 				criterioFiltro,
 				opcao_parametro_filtro
 				);

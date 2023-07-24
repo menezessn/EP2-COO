@@ -1,6 +1,6 @@
 package strategy.filtro;
 
-import decorator.Produto;
+import decorator.Product;
 
 public class CategoriaIgual implements Filtro{
 
@@ -10,8 +10,8 @@ public class CategoriaIgual implements Filtro{
         this.argFiltro = argFiltro;
     }
     
-    public boolean equals(Produto produto){
-        return produto.getCategoria().equalsIgnoreCase(this.argFiltro);
+    public boolean equals(Product product){
+        return product.getCategoria().equalsIgnoreCase(this.argFiltro);
     }
 }
 

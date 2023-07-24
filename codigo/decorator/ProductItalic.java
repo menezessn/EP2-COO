@@ -1,13 +1,10 @@
 package decorator;
 
-public class ProdutoNegrito extends ProdutoDecorator {
+public class ProductItalic extends ProductDecorator {
 
-    public ProdutoNegrito(Produto Produto) {
-
-        super(Produto);
-    }
-
-    @Override
+        public ProductItalic(Product Product) {
+            super(Product);
+        }
 
 
     public String formataParaImpressao(){
@@ -17,6 +14,4 @@ public class ProdutoNegrito extends ProdutoDecorator {
     }
 
 }
-
-
 

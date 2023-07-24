@@ -1,7 +1,7 @@
 package strategy.filtro;
 
-import decorator.Produto;
+import decorator.Product;
 
 public interface Filtro { 
-    public boolean equals(Produto produto);
+    public boolean equals(Product product);
 }

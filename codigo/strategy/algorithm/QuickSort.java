@@ -1,30 +1,30 @@
 package strategy.algorithm;
 import java.util.ArrayList;
 
-import decorator.Produto;
-import strategy.criterio.Criterio;
+import decorator.Product;
+import strategy.criterio.Standards;
 
 public class QuickSort implements Algorithm {
 
-    ArrayList<Produto> produtos;
-    Criterio criterio;
+    ArrayList<Product> products;
+    Standards standards;
 
     private int particiona(int ini, int fim) {
-        Produto x = produtos.get(ini);
+        Product x = products.get(ini);
         int i = ini - 1;
         int j = fim + 1;
 
         while(true) {
             do {
                 j--;
-            } while(criterio.compare(produtos.get(j), x) > 0);
+            } while(standards.compare(products.get(j), x) > 0);
             do {
                 i++;
-            } while(criterio.compare(produtos.get(i), x) < 0);
+            } while(standards.compare(products.get(i), x) < 0);
 			if(i < j){
-				Produto temp = produtos.get(i);
-				produtos.set(i, produtos.get(j));
-				produtos.set(j, temp);
+				Product temp = products.get(i);
+				products.set(i, products.get(j));
+				products.set(j, temp);
 			}
 			else return j;
         }
@@ -40,10 +40,10 @@ public class QuickSort implements Algorithm {
         }
     }
 
-    public void order(ArrayList<Produto> produtos, Criterio criterio) {
-        this.produtos = produtos;
-        this.criterio = criterio;
+    public void order(ArrayList<Product> products, Standards standards) {
+        this.products = products;
+        this.standards = standards;
 
-        orderQuick(0, produtos.size()-1);
+        orderQuick(0, products.size()-1);
     }
 }

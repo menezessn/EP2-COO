@@ -1,6 +1,6 @@
 package decorator;
 
-public interface Produto {
+public interface Product {
 
 	public void setQtdEstoque(int qtdEstoque);
 

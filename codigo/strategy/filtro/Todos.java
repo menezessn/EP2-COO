@@ -1,10 +1,10 @@
 package strategy.filtro;
 
-import decorator.Produto;
+import decorator.Product;
 
 public class Todos implements Filtro {
 
-    public boolean equals(Produto produto){
+    public boolean equals(Product product){
         return true;
     }
 }

@@ -1,6 +1,6 @@
 package strategy.filtro;
 
-import decorator.Produto;
+import decorator.Product;
 
 public class DescricaoContem implements Filtro {
 
@@ -10,8 +10,8 @@ public class DescricaoContem implements Filtro {
         this.argFiltro = argFiltro;
     }
 
-    public boolean equals(Produto produto){
-        return produto.getDescricao().contains(this.argFiltro);
+    public boolean equals(Product product){
+        return product.getDescricao().contains(this.argFiltro);
         
     }    
 }

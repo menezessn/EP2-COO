@@ -1,7 +1,7 @@
 package decorator;
 
-abstract public class ProdutoDecorator implements Produto {
-    private Produto produto;
+abstract public class ProductDecorator implements Product {
+    private Product product;
     public void setQtdEstoque(int qtdEstoque) {
 
     }
@@ -35,14 +35,14 @@ abstract public class ProdutoDecorator implements Produto {
     public double getPreco() {
         return 0;
     }
-    public ProdutoDecorator(Produto produto) {
-        this.produto = produto;
+    public ProductDecorator(Product product) {
+        this.product = product;
 
     }
 
     public String formataParaImpressao(){
 
-        return produto.formataParaImpressao();
+        return product.formataParaImpressao();
 
     }
 }

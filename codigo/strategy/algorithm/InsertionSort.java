@@ -1,25 +1,25 @@
 package strategy.algorithm;
 
 import java.util.ArrayList;
-import decorator.Produto;
-import strategy.criterio.Criterio;
+import decorator.Product;
+import strategy.criterio.Standards;
 
 
 public class InsertionSort implements Algorithm {
 
     //implementa a ordenação com o insertionSort
-    public void order(ArrayList<Produto> produtos, Criterio criterio) {
-        for (int i = 1; i < produtos.size(); i++) {
+    public void order(ArrayList<Product> products, Standards standards) {
+        for (int i = 1; i < products.size(); i++) {
 
-            Produto x = produtos.get(i);
+            Product x = products.get(i);
             int j = (i - 1);
 
-            while (j >= 0 && criterio.compare(x, produtos.get(j)) > 0) {
+            while (j >= 0 && standards.compare(x, products.get(j)) > 0) {
 
-                produtos.set(j + 1, produtos.get(j));
+                products.set(j + 1, products.get(j));
                 j--;
             }
-            produtos.set(j + 1, x);
+            products.set(j + 1, x);
         }
     }
 }

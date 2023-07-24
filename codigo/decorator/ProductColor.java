@@ -1,13 +1,13 @@
 package decorator;
 
-public class ProdutoCor extends ProdutoDecorator{
+public class ProductColor extends ProductDecorator {
 
 
     private String color;
 
-    public ProdutoCor(Produto Produto, String color) {
+    public ProductColor(Product Product, String color) {
 
-        super(Produto);
+        super(Product);
         this.color = color;
 
     }

@@ -1,6 +1,6 @@
 package strategy.filtro;
 
-import decorator.Produto;
+import decorator.Product;
 
 public class EstoqueMenorIgual implements Filtro {
 
@@ -10,7 +10,7 @@ public class EstoqueMenorIgual implements Filtro {
         this.argFiltro = argFiltro;
     }
 
-    public boolean equals(Produto produto){
-        return produto.getQtdEstoque() <= Integer.parseInt(argFiltro);
+    public boolean equals(Product product){
+        return product.getQtdEstoque() <= Integer.parseInt(argFiltro);
     }
 }
