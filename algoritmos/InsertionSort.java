@@ -3,25 +3,29 @@ package algoritmos;
 import criterios.CriterioOrdenacao;
 import src.Produto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InsertionSort implements Algoritmo{
-    private Produto[] produtos;
+    private List<Produto> produtos;
     private CriterioOrdenacao criterio;
 
-    public InsertionSort(Produto[] produtos, CriterioOrdenacao criterio) {
+    public InsertionSort(List<Produto> produtos, CriterioOrdenacao criterio) {
         this.produtos = produtos;
         this.criterio = criterio;
-        ordena(0, produtos.length - 1);
+        ordena(0, produtos.size() - 1 );
     }
     @Override
     public void ordena(int ini, int fim) {
         for(int i = ini; i <= fim; i++){
 
-            Produto x = produtos[i];
+            Produto x = produtos.get(i);
             int j = (i - 1);
 
-            while(j >= ini && criterio.comparar(x, produtos[j]) > 0){
+            while(j >= ini && criterio.comparar(x, produtos.get(j)) > 0){
 
-                produtos[j + 1] = produtos[j];
+                //produtos[j + 1] = produtos[j];
+                produtos.set(j+1, produtos.get(j));
                 j--;
 
 
@@ -54,7 +58,8 @@ public class InsertionSort implements Algoritmo{
 //					else throw new RuntimeException("Criterio invalido!");
             }
 
-            produtos[j + 1] = x;
+            //produtos[j + 1] = x;
+            produtos.set(j+1, x);
         }
     }
 }

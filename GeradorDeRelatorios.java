@@ -1,10 +1,18 @@
+import algoritmos.Algoritmo;
 import criterios.CriterioOrdenacao;
 import criterios.CriterioFromString;
+import src.AlgoritmoFromString;
 import src.Produto;
 import src.ProdutoPadrao;
 
 import java.io.PrintWriter;
 import java.io.IOException;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class GeradorDeRelatorios {
 
@@ -25,21 +33,15 @@ public class GeradorDeRelatorios {
 	public static final int FORMATO_NEGRITO = 0b0001;
 	public static final int FORMATO_ITALICO = 0b0010;
 
-	private Produto[] produtos;
-	private String algoritmo;
+	private static List<Produto> produtos;
+	private Algoritmo algoritmo;
 	private CriterioOrdenacao criterio;
 	private String filtro;
 	private String argFiltro;
-	private int format_flags;	
+	private int format_flags;
 
-	public GeradorDeRelatorios(Produto [] produtos, String algoritmo, CriterioOrdenacao criterio, String filtro, String argFiltro, int format_flags){
+	public GeradorDeRelatorios( Algoritmo algoritmo, CriterioOrdenacao criterio, String filtro, String argFiltro, int format_flags){
 
-		this.produtos = new Produto[produtos.length];
-		
-		for(int i = 0; i < produtos.length; i++){
-		
-			this.produtos[i] = produtos[i];
-		}
 
 		this.algoritmo = algoritmo;
 		this.criterio = criterio;
@@ -50,19 +52,19 @@ public class GeradorDeRelatorios {
 
 
 
-	private void ordena(int ini, int fim){
-
-		if(algoritmo.equals(ALG_INSERTIONSORT)){
-
-			for(int i = ini; i <= fim; i++){
-
-				Produto x = produtos[i];
-				int j = (i - 1);
-
-				while(j >= ini && criterio.comparar(x, produtos[j]) > 0){
-
-					produtos[j + 1] = produtos[j];
-					j--;
+//	private void ordena(int ini, int fim){
+//
+//		if(algoritmo.equals(ALG_INSERTIONSORT)){
+//
+//			for(int i = ini; i <= fim; i++){
+//
+//				Produto x = produtos.get(ini);
+//				int j = (i - 1);
+//
+//				while(j >= ini && criterio.comparar(x, produtos[j]) > 0){
+//
+//					produtos[j + 1] = produtos[j];
+//					j--;
 
 
 //					if(criterio.equals(CRIT_DESC_CRESC)){
@@ -92,30 +94,30 @@ public class GeradorDeRelatorios {
 //						else break;
 //					}
 //					else throw new RuntimeException("Criterio invalido!");
-				}
-
-				produtos[j + 1] = x;
-			}
-		}
-		else if(algoritmo.equals(ALG_QUICKSORT)){
-
-			if(ini < fim) {
-
-				int q = particiona(ini, fim);
-				
-				ordena(ini, q);
-				ordena(q + 1, fim);
-			}
-		}
-		else {
-			throw new RuntimeException("Algoritmo invalido!");
-		}
-	}
+//				}
+//
+//				produtos[j + 1] = x;
+//			}
+//		}
+//		else if(algoritmo.equals(ALG_QUICKSORT)){
+//
+//			if(ini < fim) {
+//
+//				int q = particiona(ini, fim);
+//
+//				ordena(ini, q);
+//				ordena(q + 1, fim);
+//			}
+//		}
+//		else {
+//			throw new RuntimeException("Algoritmo invalido!");
+//		}
+//	}
 	
 	
 	public void debug(){
 
-		System.out.println("Gerando relatório para array contendo " + produtos.length + " produto(s)");
+		System.out.println("Gerando relatório para array contendo " + produtos.size() + " produto(s)");
 		System.out.println("parametro filtro = '" + argFiltro + "'"); 
 	}
 
@@ -124,7 +126,7 @@ public class GeradorDeRelatorios {
 
 		debug();
 
-		ordena(0, produtos.length - 1);
+		algoritmo.ordena(0, produtos.size() - 1);
 
 		PrintWriter out = new PrintWriter(arquivoSaida);
 
@@ -136,9 +138,9 @@ public class GeradorDeRelatorios {
 
 		int count = 0;
 
-		for(int i = 0; i < produtos.length; i++){
+		for(int i = 0; i < produtos.size(); i++){
 
-			Produto p = produtos[i];
+			Produto p = produtos.get(i);
 			boolean selecionado = false;
 
 			if(filtro.equals(FILTRO_TODOS)){
@@ -189,51 +191,87 @@ public class GeradorDeRelatorios {
 		}
 
 		out.println("</ul>");
-		out.println(count + " produtos listados, de um total de " + produtos.length + ".");
+		out.println(count + " produtos listados, de um total de " + produtos.size() + ".");
 		out.println("</body>");
 		out.println("</html>");
 
 		out.close();
 	}
 
-	public static Produto [] carregaProdutos(){
+//	public static Produto [] carregaProdutos(){
+//
+//		return new Produto [] {
+//
+//			new ProdutoPadrao( 1, "O Hobbit", "Livros", 2, 34.90),
+//			new ProdutoPadrao( 2, "Notebook Core i7", "Informatica", 5, 1999.90),
+//			new ProdutoPadrao( 3, "Resident Evil 4", "Games", 7, 79.90),
+//			new ProdutoPadrao( 4, "iPhone", "Telefonia", 8, 4999.90),
+//			new ProdutoPadrao( 5, "Calculo I", "Livros", 20, 55.00),
+//			new ProdutoPadrao( 6, "Power Glove", "Games", 3, 499.90),
+//			new ProdutoPadrao( 7, "Microsoft HoloLens", "Informatica", 1, 19900.00),
+//			new ProdutoPadrao( 8, "OpenGL Programming Guide", "Livros", 4, 89.90),
+//			new ProdutoPadrao( 9, "Vectrex", "Games", 1, 799.90),
+//			new ProdutoPadrao(10, "Carregador iPhone", "Telefonia", 15, 499.90),
+//			new ProdutoPadrao(11, "Introduction to Algorithms", "Livros", 7, 315.00),
+//			new ProdutoPadrao(12, "Daytona USA (Arcade)", "Games", 1, 12000.00),
+//			new ProdutoPadrao(13, "Neuromancer", "Livros", 5, 45.00),
+//			new ProdutoPadrao(14, "Nokia 3100", "Telefonia", 4, 249.99),
+//			new ProdutoPadrao(15, "Oculus Rift", "Games", 1, 3600.00),
+//			new ProdutoPadrao(16, "Trackball Logitech", "Informatica", 1, 250.00),
+//			new ProdutoPadrao(17, "After Burner II (Arcade)", "Games", 2, 8900.0),
+//			new ProdutoPadrao(18, "Assembly for Dummies", "Livros", 30, 129.90),
+//			new ProdutoPadrao(19, "iPhone (usado)", "Telefonia", 3, 3999.90),
+//			new ProdutoPadrao(20, "Game Programming Patterns", "Livros", 1, 299.90),
+//			new ProdutoPadrao(21, "Playstation 2", "Games", 10, 499.90),
+//			new ProdutoPadrao(22, "Carregador Nokia", "Telefonia", 14, 89.00),
+//			new ProdutoPadrao(23, "Placa Aceleradora Voodoo 2", "Informatica", 4, 189.00),
+//			new ProdutoPadrao(24, "Stunts", "Games", 3, 19.90),
+//			new ProdutoPadrao(25, "Carregador Generico", "Telefonia", 9, 30.00),
+//			new ProdutoPadrao(26, "Monitor VGA 14 polegadas", "Informatica", 2, 199.90),
+//			new ProdutoPadrao(27, "Nokia N-Gage", "Telefonia", 9, 699.00),
+//			new ProdutoPadrao(28, "Disquetes Maxell 5.25 polegadas (caixa com 10 unidades)", "Informatica", 23, 49.00),
+//			new ProdutoPadrao(29, "Alone in The Dark", "Games", 11, 59.00),
+//			new ProdutoPadrao(30, "The Art of Computer Programming Vol. 1", "Livros", 3, 240.00),
+//			new ProdutoPadrao(31, "The Art of Computer Programming Vol. 2", "Livros", 2, 200.00),
+//			new ProdutoPadrao(32, "The Art of Computer Programming Vol. 3", "Livros", 4, 270.00)
+//		};
+//	}
 
-		return new Produto [] { 
+	public static void csvReader() {
+		String arquivoCSV = "./produtos.csv";
 
-			new ProdutoPadrao( 1, "O Hobbit", "Livros", 2, 34.90),
-			new ProdutoPadrao( 2, "Notebook Core i7", "Informatica", 5, 1999.90),
-			new ProdutoPadrao( 3, "Resident Evil 4", "Games", 7, 79.90),
-			new ProdutoPadrao( 4, "iPhone", "Telefonia", 8, 4999.90),
-			new ProdutoPadrao( 5, "Calculo I", "Livros", 20, 55.00),
-			new ProdutoPadrao( 6, "Power Glove", "Games", 3, 499.90),
-			new ProdutoPadrao( 7, "Microsoft HoloLens", "Informatica", 1, 19900.00),
-			new ProdutoPadrao( 8, "OpenGL Programming Guide", "Livros", 4, 89.90),
-			new ProdutoPadrao( 9, "Vectrex", "Games", 1, 799.90),
-			new ProdutoPadrao(10, "Carregador iPhone", "Telefonia", 15, 499.90),
-			new ProdutoPadrao(11, "Introduction to Algorithms", "Livros", 7, 315.00),
-			new ProdutoPadrao(12, "Daytona USA (Arcade)", "Games", 1, 12000.00),
-			new ProdutoPadrao(13, "Neuromancer", "Livros", 5, 45.00),
-			new ProdutoPadrao(14, "Nokia 3100", "Telefonia", 4, 249.99),
-			new ProdutoPadrao(15, "Oculus Rift", "Games", 1, 3600.00),
-			new ProdutoPadrao(16, "Trackball Logitech", "Informatica", 1, 250.00),
-			new ProdutoPadrao(17, "After Burner II (Arcade)", "Games", 2, 8900.0),
-			new ProdutoPadrao(18, "Assembly for Dummies", "Livros", 30, 129.90),
-			new ProdutoPadrao(19, "iPhone (usado)", "Telefonia", 3, 3999.90),
-			new ProdutoPadrao(20, "Game Programming Patterns", "Livros", 1, 299.90),
-			new ProdutoPadrao(21, "Playstation 2", "Games", 10, 499.90),
-			new ProdutoPadrao(22, "Carregador Nokia", "Telefonia", 14, 89.00),
-			new ProdutoPadrao(23, "Placa Aceleradora Voodoo 2", "Informatica", 4, 189.00),
-			new ProdutoPadrao(24, "Stunts", "Games", 3, 19.90),
-			new ProdutoPadrao(25, "Carregador Generico", "Telefonia", 9, 30.00),
-			new ProdutoPadrao(26, "Monitor VGA 14 polegadas", "Informatica", 2, 199.90),
-			new ProdutoPadrao(27, "Nokia N-Gage", "Telefonia", 9, 699.00),
-			new ProdutoPadrao(28, "Disquetes Maxell 5.25 polegadas (caixa com 10 unidades)", "Informatica", 23, 49.00),
-			new ProdutoPadrao(29, "Alone in The Dark", "Games", 11, 59.00),
-			new ProdutoPadrao(30, "The Art of Computer Programming Vol. 1", "Livros", 3, 240.00),
-			new ProdutoPadrao(31, "The Art of Computer Programming Vol. 2", "Livros", 2, 200.00),
-			new ProdutoPadrao(32, "The Art of Computer Programming Vol. 3", "Livros", 4, 270.00)
-		};
-	} 
+
+
+		try (BufferedReader br = new BufferedReader(new FileReader(arquivoCSV))) {
+			String linha;
+			boolean primeiraLinha = true; // Para ignorar o cabeçalho do CSV
+
+			while ((linha = br.readLine()) != null) {
+				if (primeiraLinha) {
+					primeiraLinha = false;
+					continue; // Ignorar o cabeçalho
+				}
+
+				String[] campos = linha.split(","); // Divide a linha pelos caracteres de vírgula
+				for(int i = 0; i < campos.length; i++) {
+					campos[i] = campos[i].trim(); // Remove espaços em branco
+				}
+				Integer id = Integer.parseInt(campos[0]);
+				String descricao = campos[1];
+				String categoria = campos[2];
+				int qtdEstoque = Integer.parseInt(campos[3]);
+				double preco = Double.parseDouble(campos[4]);
+				Produto produto = new ProdutoPadrao(id, descricao, categoria, qtdEstoque,preco);
+				produtos.add(produto);
+
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Agora você tem a lista de produtos criada a partir do arquivo CSV
+		// Faça o que for necessário com a lista de produtos.
+	}
 
 	public static void main(String [] args) {
 
@@ -251,11 +289,15 @@ public class GeradorDeRelatorios {
 			System.exit(1);
 		}
 
-		String opcao_algoritmo = args[0];
+		//Algoritmo opcao_algoritmo = AlgoritmoFromString.stringToAlgoritmo(args[0]) ;
+		produtos = new ArrayList<>();
+		csvReader();
 		CriterioOrdenacao opcao_criterio_ord = CriterioFromString.stringToCriterio(args[1]);
 		String opcao_criterio_filtro = args[2];
 		String opcao_parametro_filtro = args[3];
-		
+		Algoritmo opcao_algoritmo = AlgoritmoFromString.stringToAlgoritmo(args[0], produtos, opcao_criterio_ord ) ;
+
+
 		String [] opcoes_formatacao = new String[2];
 		opcoes_formatacao[0] = args.length > 4 ? args[4] : null;
 		opcoes_formatacao[1] = args.length > 5 ? args[5] : null;
@@ -266,8 +308,10 @@ public class GeradorDeRelatorios {
 			String op = opcoes_formatacao[i];
 			formato |= (op != null ? op.equals("negrito") ? FORMATO_NEGRITO : (op.equals("italico") ? FORMATO_ITALICO : 0) : 0); 
 		}
+
+
 		
-		GeradorDeRelatorios gdr = new GeradorDeRelatorios(	carregaProdutos(), 
+		GeradorDeRelatorios gdr = new GeradorDeRelatorios(
 									opcao_algoritmo,
 									opcao_criterio_ord,
 									opcao_criterio_filtro,

@@ -3,21 +3,25 @@ package algoritmos;
 import criterios.CriterioOrdenacao;
 import src.Produto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuickSort implements Algoritmo{
 
-    private Produto[] produtos;
+    private List<Produto> produtos;
     private CriterioOrdenacao criterio;
 
-    public QuickSort(Produto[] produtos, CriterioOrdenacao criterio) {
+    public QuickSort(List<Produto> produtos, CriterioOrdenacao criterio) {
         this.produtos = produtos;
         this.criterio = criterio;
-        ordena(0, produtos.length - 1);
+        ordena(0, produtos.size() - 1 );
     }
 
     //Adcionei o padrão strategy em particiona
     private int particiona(int ini, int fim){
 
-        Produto x = produtos[ini];
+        //Produto x = produtos[ini];
+        Produto x = produtos.get(ini);
         int i = (ini - 1);
         int j = (fim + 1);
 
@@ -25,11 +29,11 @@ public class QuickSort implements Algoritmo{
 
             do {
                 j--;
-            } while (criterio.comparar(produtos[j], x) > 0);
+            } while (criterio.comparar(produtos.get(j), x) > 0);
 
             do {
                 i++;
-            } while (criterio.comparar(produtos[i], x) < 0);
+            } while (criterio.comparar(produtos.get(i), x) < 0);
 
 //			if(criterio.equals(CRIT_DESC_CRESC)){
 //
@@ -75,9 +79,11 @@ public class QuickSort implements Algoritmo{
 //			}
 
             if(i < j){
-                Produto temp = produtos[i];
-                produtos[i] = produtos[j];
-                produtos[j] = temp;
+                Produto temp = produtos.get(i);
+                //produtos[i] = produtos[j];
+                produtos.set(i, produtos.get(j));
+                //produtos[j] = temp;
+                produtos.set(j, temp);
             }
             else return j;
         }
