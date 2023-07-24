@@ -3,6 +3,7 @@ import algoritmos.Algoritmo;
 import algoritmos.InsertionSort;
 import algoritmos.QuickSort;
 import criterios.CriterioOrdenacao;
+import decorator.Produto;
 
 import java.util.ArrayList;
 import java.util.List;

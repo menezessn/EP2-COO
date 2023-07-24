@@ -1,4 +1,4 @@
-
+package decorator;
 public class ProdutoNegrito extends ProdutoDecorator {
 
 	public ProdutoNegrito(Produto p) {

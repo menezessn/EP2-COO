@@ -1,5 +1,5 @@
 package criterios;
-import src.Produto;
+import decorator.Produto;
 
 //Interface para implementar as classes com os criterios de ordenação a serem utilizados para o padrão stratefy
 public interface CriterioOrdenacao {

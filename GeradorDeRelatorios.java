@@ -1,9 +1,8 @@
 import algoritmos.Algoritmo;
 import criterios.CriterioOrdenacao;
 import criterios.CriterioFromString;
+import decorator.ProdutoPadrao;
 import src.AlgoritmoFromString;
-import src.Produto;
-import src.ProdutoPadrao;
 
 import java.io.PrintWriter;
 import java.io.IOException;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import decorator.Produto;
 
 public class GeradorDeRelatorios {
 

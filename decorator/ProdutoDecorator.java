@@ -1,4 +1,4 @@
-
+package decorator;
 public class ProdutoDecorator implements Produto {
 	
 	protected Produto produto;

@@ -1,7 +1,7 @@
 package criterios;
-import src.Produto;
+import decorator.Produto;
 
-public class CriterioEstoque implements CriterioOrdenacao{
+public class CriterioEstoqueCrescente implements CriterioOrdenacao{
     @Override
     public int comparar(Produto p1, Produto p2) {
         return Integer.compare(p1.getQtdEstoque(), p2.getQtdEstoque());

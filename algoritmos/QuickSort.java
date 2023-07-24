@@ -1,9 +1,7 @@
 package algoritmos;
-
+import decorator.Produto;
 import criterios.CriterioOrdenacao;
-import src.Produto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuickSort implements Algoritmo{

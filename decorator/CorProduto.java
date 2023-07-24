@@ -1,3 +1,4 @@
+package decorator;
 
 public class CorProduto extends ProdutoDecorator {
 	
