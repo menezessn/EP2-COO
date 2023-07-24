@@ -5,6 +5,7 @@ public class ProdutoItalico extends ProdutoDecorator {
 		super(p);
 	}
 
+	@Override
 	public String formataParaImpressao() {
 		return "<span style=\"font-weight:italic\">" + super.formataParaImpressao() + "</span>" ;
 	}
