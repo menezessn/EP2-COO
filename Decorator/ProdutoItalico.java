@@ -6,6 +6,6 @@ public class ProdutoItalico extends ProdutoDecorator {
 	}
 
 	public String formataParaImpressao() {
-		return "<span style=\"font-weight:bold\">" + super.formataParaImpressao() + "</span>" ;
+		return "<span style=\"font-weight:italic\">" + super.formataParaImpressao() + "</span>" ;
 	}
 }
