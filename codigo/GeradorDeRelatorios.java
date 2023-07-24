@@ -9,22 +9,22 @@ import decorator.Produto;
 import decorator.ProdutoItalico;
 import decorator.ProdutoNegrito;
 import decorator.ProdutoPadrao;
-import strategies.algoritmo.Algoritmo;
-import strategies.algoritmo.InsertionSort;
-import strategies.algoritmo.QuickSort;
-import strategies.criterio.Criterio;
-import strategies.criterio.DescCresc;
-import strategies.criterio.DescDecresc;
-import strategies.criterio.EstoqueCresc;
-import strategies.criterio.EstoqueDecresc;
-import strategies.criterio.PrecoCresc;
-import strategies.criterio.PrecoDecresc;
-import strategies.filtro.CategoriaIgual;
-import strategies.filtro.DescricaoContem;
-import strategies.filtro.EstoqueMenorIgual;
-import strategies.filtro.Filtro;
-import strategies.filtro.IntervaloDePreco;
-import strategies.filtro.Todos;
+import strategy.algorithm.Algorithm;
+import strategy.algorithm.InsertionSort;
+import strategy.algorithm.QuickSort;
+import strategy.criterio.Criterio;
+import strategy.criterio.DescCresc;
+import strategy.criterio.DescDecresc;
+import strategy.criterio.EstoqueCresc;
+import strategy.criterio.EstoqueDecresc;
+import strategy.criterio.PrecoCresc;
+import strategy.criterio.PrecoDecresc;
+import strategy.filtro.CategoriaIgual;
+import strategy.filtro.DescricaoContem;
+import strategy.filtro.EstoqueMenorIgual;
+import strategy.filtro.Filtro;
+import strategy.filtro.IntervaloDePreco;
+import strategy.filtro.Todos;
 
 public class GeradorDeRelatorios {
 	public static final String ALG_INSERTIONSORT = "insertion";
@@ -51,15 +51,15 @@ public class GeradorDeRelatorios {
 
 	private ArrayList<Produto> produtos;
 	private Filtro filtro;
-	private Algoritmo algoritmo;
+	private Algorithm algorithm;
 	private Criterio criterio;
 	private String argFiltro;
 
-	public GeradorDeRelatorios(ArrayList<Produto> produtos, Algoritmo algoritmo, Criterio criterio, Filtro filtro, String argFiltro) {
+	public GeradorDeRelatorios(ArrayList<Produto> produtos, Algorithm algorithm, Criterio criterio, Filtro filtro, String argFiltro) {
 
 		this.produtos = new ArrayList<Produto>(produtos);
 
-		this.algoritmo = algoritmo;
+		this.algorithm = algorithm;
 		this.criterio = criterio;
 		this.filtro = filtro;
 	}
@@ -74,7 +74,7 @@ public class GeradorDeRelatorios {
 
 		debug();
 
-		algoritmo.ordena(produtos, criterio);
+		algorithm.order(produtos, criterio);
 
 		PrintWriter out = new PrintWriter(arquivoSaida);
 
@@ -159,14 +159,14 @@ public class GeradorDeRelatorios {
 		String opcao_parametro_filtro = args[3];
 		String nome_do_arquivo = args[4];
 
-		Algoritmo algoritmo;
+		Algorithm algorithm;
 
 		switch (opcao_algoritmo) {
 			case ALG_INSERTIONSORT:
-				algoritmo = new InsertionSort();
+				algorithm = new InsertionSort();
 				break;
 			case ALG_QUICKSORT:
-				algoritmo = new QuickSort();
+				algorithm = new QuickSort();
 				break;
 			default:
 				throw new RuntimeException("Algoritmo inválido!");
@@ -224,7 +224,7 @@ public class GeradorDeRelatorios {
 
 		GeradorDeRelatorios gdr = new GeradorDeRelatorios(
 				carregaProdutos(new File(nome_do_arquivo)),
-				algoritmo,
+				algorithm,
 				criterioOrdenacao,
 				criterioFiltro,
 				opcao_parametro_filtro

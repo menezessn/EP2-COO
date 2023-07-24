@@ -1,10 +1,10 @@
-package strategies.algoritmo;
+package strategy.algorithm;
 import java.util.ArrayList;
 
 import decorator.Produto;
-import strategies.criterio.Criterio;
+import strategy.criterio.Criterio;
 
-public class QuickSort implements Algoritmo{
+public class QuickSort implements Algorithm {
 
     ArrayList<Produto> produtos;
     Criterio criterio;
@@ -31,19 +31,19 @@ public class QuickSort implements Algoritmo{
 
     }
 
-    private void ordenaRec(int ini, int fim) {
+    private void orderQuick(int ini, int fim) {
         if (ini < fim) {
             int q = particiona(ini, fim);
 
-            ordenaRec(ini, q);
-            ordenaRec(q + 1, fim);
+            orderQuick(ini, q);
+            orderQuick(q + 1, fim);
         }
     }
 
-    public void ordena(ArrayList<Produto> produtos, Criterio criterio) {
+    public void order(ArrayList<Produto> produtos, Criterio criterio) {
         this.produtos = produtos;
         this.criterio = criterio;
 
-        ordenaRec(0, produtos.size()-1);
+        orderQuick(0, produtos.size()-1);
     }
 }

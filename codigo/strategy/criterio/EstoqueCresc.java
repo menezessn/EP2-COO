@@ -1,4 +1,4 @@
-package strategies.criterio;
+package strategy.criterio;
 import decorator.Produto;
 
 public class EstoqueCresc implements Criterio {

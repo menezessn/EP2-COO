@@ -1,4 +1,4 @@
-package strategies.filtro;
+package strategy.filtro;
 
 import decorator.Produto;
 
