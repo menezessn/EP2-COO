@@ -1,4 +1,6 @@
-public class CriterioString {
+package criterios;
+
+public class CriterioFromString {
     public static CriterioOrdenacao stringToCriterio(String criterio) throws RuntimeException{
         if (criterio.equals("preco_c")){
             return new CriterioPreco();
