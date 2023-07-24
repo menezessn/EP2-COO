@@ -1,3 +1,6 @@
+package criterios;
+import src.Produto;
+
 public class CriterioDescricao implements CriterioOrdenacao{
     @Override
     public int comparar(Produto p1, Produto p2) {

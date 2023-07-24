@@ -1,7 +1,10 @@
+import criterios.CriterioOrdenacao;
+import criterios.CriterioFromString;
+import src.Produto;
+import src.ProdutoPadrao;
+
 import java.io.PrintWriter;
 import java.io.IOException;
-
-import java.util.*;
 
 public class GeradorDeRelatorios {
 
@@ -22,7 +25,7 @@ public class GeradorDeRelatorios {
 	public static final int FORMATO_NEGRITO = 0b0001;
 	public static final int FORMATO_ITALICO = 0b0010;
 
-	private Produto [] produtos;
+	private Produto[] produtos;
 	private String algoritmo;
 	private CriterioOrdenacao criterio;
 	private String filtro;
@@ -45,74 +48,7 @@ public class GeradorDeRelatorios {
 		this.argFiltro = argFiltro;
 	}
 
-	//Adcionei o padrão strategy em particiona
-	private int particiona(int ini, int fim, CriterioOrdenacao criterio){
 
-		Produto x = produtos[ini];
-		int i = (ini - 1);
-		int j = (fim + 1);
-
-		while(true){
-
-			do {
-				j--;
-			} while (criterio.comparar(produtos[j], x) > 0);
-
-			do {
-				i++;
-			} while (criterio.comparar(produtos[i], x) < 0);
-
-//			if(criterio.equals(CRIT_DESC_CRESC)){
-//
-//				do{
-//					j--;
-//
-//				} while(produtos[j].getDescricao().compareToIgnoreCase(x.getDescricao()) > 0);
-//
-//				do{
-//					i++;
-//
-//				} while(produtos[i].getDescricao().compareToIgnoreCase(x.getDescricao()) < 0);
-//			}
-//			else if(criterio.equals(CRIT_PRECO_CRESC)){
-//
-//				do{
-//					j--;
-//
-//				} while(produtos[j].getPreco() > x.getPreco());
-//
-//				do{
-//					i++;
-//
-//				} while(produtos[i].getPreco() < x.getPreco());
-//			}
-//
-//			else if(criterio.equals(CRIT_ESTOQUE_CRESC)){
-//
-//				do{
-//					j--;
-//
-//				} while(produtos[j].getQtdEstoque() > x.getQtdEstoque());
-//
-//				do{
-//					i++;
-//
-//				} while(produtos[i].getQtdEstoque() < x.getQtdEstoque());
-//
-//			}
-//			else{
-//
-//				throw new RuntimeException("Criterio invalido!");
-//			}
-
-			if(i < j){
-				Produto temp = produtos[i];
-				produtos[i] = produtos[j];
-				produtos[j] = temp;
-			}
-			else return j;
-		}
-	}
 
 	private void ordena(int ini, int fim){
 
@@ -123,36 +59,39 @@ public class GeradorDeRelatorios {
 				Produto x = produtos[i];
 				int j = (i - 1);
 
-				while(j >= ini){
+				while(j >= ini && criterio.comparar(x, produtos[j]) > 0){
 
-					if(criterio.equals(CRIT_DESC_CRESC)){
+					produtos[j + 1] = produtos[j];
+					j--;
 
-						if( x.getDescricao().compareToIgnoreCase(produtos[j].getDescricao()) < 0 ){
 
-							produtos[j + 1] = produtos[j];
-							j--;
-						}
-						else break;
-					}
-					else if(criterio.equals(CRIT_PRECO_CRESC)){
-
-						if(x.getPreco() < produtos[j].getPreco()){
-
-							produtos[j + 1] = produtos[j];
-							j--;
-						}
-						else break;
-					}
-					else if(criterio.equals(CRIT_ESTOQUE_CRESC)){
-
-						if(x.getQtdEstoque() < produtos[j].getQtdEstoque()){
-
-							produtos[j + 1] = produtos[j];
-							j--;
-						}
-						else break;
-					}
-					else throw new RuntimeException("Criterio invalido!");
+//					if(criterio.equals(CRIT_DESC_CRESC)){
+//
+//						if( x.getDescricao().compareToIgnoreCase(produtos[j].getDescricao()) < 0 ){
+//							produtos[j + 1] = produtos[j];
+//							j--;
+//						}
+//						else break;
+//					}
+//					else if(criterio.equals(CRIT_PRECO_CRESC)){
+//
+//						if(x.getPreco() < produtos[j].getPreco()){
+//
+//							produtos[j + 1] = produtos[j];
+//							j--;
+//						}
+//						else break;
+//					}
+//					else if(criterio.equals(CRIT_ESTOQUE_CRESC)){
+//
+//						if(x.getQtdEstoque() < produtos[j].getQtdEstoque()){
+//
+//							produtos[j + 1] = produtos[j];
+//							j--;
+//						}
+//						else break;
+//					}
+//					else throw new RuntimeException("Criterio invalido!");
 				}
 
 				produtos[j + 1] = x;
@@ -162,7 +101,7 @@ public class GeradorDeRelatorios {
 
 			if(ini < fim) {
 
-				int q = particiona(ini, fim, criterio);
+				int q = particiona(ini, fim);
 				
 				ordena(ini, q);
 				ordena(q + 1, fim);
@@ -313,7 +252,7 @@ public class GeradorDeRelatorios {
 		}
 
 		String opcao_algoritmo = args[0];
-		CriterioOrdenacao opcao_criterio_ord = CriterioString.stringToCriterio(args[1]);
+		CriterioOrdenacao opcao_criterio_ord = CriterioFromString.stringToCriterio(args[1]);
 		String opcao_criterio_filtro = args[2];
 		String opcao_parametro_filtro = args[3];
 		
