@@ -1,5 +1,6 @@
 package src;
 
+
 import src.algoritmos.Algoritmo;
 import src.algoritmos.AlgoritmoFromString;
 import src.criterios.CriterioFromString;

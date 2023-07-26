@@ -64,27 +64,8 @@ public class GeradorDeRelatorios {
 
 				out.print("<li>");
 
-				if((format_flags & FORMATO_ITALICO) > 0){
-
-					out.print("<span style=\"font-style:italic\">");
-				}
-
-				if((format_flags & FORMATO_NEGRITO) > 0){
-
-					out.print("<span style=\"font-weight:bold\">");
-				} 
 			
 				out.print(p.formataParaImpressao());
-
-				if((format_flags & FORMATO_NEGRITO) > 0){
-
-					out.print("</span>");
-				} 
-
-				if((format_flags & FORMATO_ITALICO) > 0){
-
-					out.print("</span>");
-				}
 
 				out.println("</li>");
 				count++;

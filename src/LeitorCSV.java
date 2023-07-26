@@ -1,5 +1,8 @@
 package src;
-
+import src.decorator.ProdutoItaeNeg;
+import src.decorator.ProdutoItalico;
+import src.decorator.ProdutoNegrito;
+import src.decorator.CorProduto;
 import src.decorator.Produto;
 import src.decorator.ProdutoPadrao;
 import java.io.BufferedReader;
@@ -35,7 +38,21 @@ public class LeitorCSV {
                 String categoria = campos[2];
                 int qtdEstoque = Integer.parseInt(campos[3]);
                 double preco = Double.parseDouble(campos[4]);
+                Boolean negrito = Boolean.parseBoolean(campos[5]);
+				Boolean italico = Boolean.parseBoolean(campos[6]);
+				String cor = campos[7];
+			
                 Produto produto = new ProdutoPadrao(id, descricao, categoria, qtdEstoque,preco);
+                if(negrito) {
+                    produto = new ProdutoItaeNeg(produto);
+                }
+                if(italico) {
+                    produto = new ProdutoItalico(produto);
+                }
+                if(negrito && italico) {
+                    produto = new ProdutoNegrito(produto);
+                }
+                produto = new CorProduto(produto, cor); // Decorator de cor
                 produtos.add(produto);
 
             }
