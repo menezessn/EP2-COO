@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeitorCSV {
-    public static List<Produto> csvReader()  {
+    public static List<Produto> csvReader(String caminho)  {
 
         List<Produto> produtos = new ArrayList<>();
-        String arquivoCSV = "src/produtos.csv";
+        String arquivoCSV = caminho;
 
 
 

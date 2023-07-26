@@ -18,14 +18,14 @@ public class GeradorDeRelatorios {
 	private CriterioOrdenacao criterio;
 	private Filtro  filtro;
 	private String argFiltro;
-	private int format_flags;
 
-	public GeradorDeRelatorios( Algoritmo algoritmo, CriterioOrdenacao criterio, Filtro filtro, String argFiltro, int format_flags, List<Produto> produtos){
+
+	public GeradorDeRelatorios( Algoritmo algoritmo, CriterioOrdenacao criterio, Filtro filtro, String argFiltro, List<Produto> produtos){
 
 
 		this.algoritmo = algoritmo;
 		this.criterio = criterio;
-		this.format_flags = format_flags;
+
 		this.filtro = filtro;
 		this.argFiltro = argFiltro;
 		this.produtos = produtos;

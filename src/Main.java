@@ -20,59 +20,54 @@ import static src.GeradorDeRelatorios.*;
 
 public class Main {
     public static void main(String [] args) throws IOException {
+        List <Produto> produtos = null;
+        CriterioOrdenacao opcao_criterio_ord = null ;
+        String opcao_parametro_filtro =null;
+        Filtro opcao_criterio_filtro = null;
+        Algoritmo opcao_algoritmo = null;
 
 
-
-        if(args.length < 4){
+        if(args.length > 3 && args[2].equals("todos")) {
+            produtos = LeitorCSV.csvReader(args[3]);
+            opcao_criterio_ord = CriterioFromString.stringToCriterio(args[1]);
+            opcao_parametro_filtro = args[2];
+            opcao_criterio_filtro = FiltroFromString.StringToFiltro(args[2], "2");
+            opcao_algoritmo = AlgoritmoFromString.stringToAlgoritmo(args[0], produtos, opcao_criterio_ord);
+        } else if(args.length < 5 ){
 
             System.out.println("Uso:");
-            System.out.println("\tjava " + GeradorDeRelatorios.class.getName() + " <algoritmo> <critério de ordenação> <critério de filtragem> <parâmetro de filtragem> <opções de formatação>");
+            System.out.println("\tjava " + GeradorDeRelatorios.class.getName() + " <algoritmo> <critério de ordenação> <critério de filtragem> <parâmetro de filtragem> <caminho do arquivo CSV>");
             System.out.println("Onde:");
             System.out.println("\talgoritmo: 'quick' ou 'insertion'");
             System.out.println("\tcriterio de ordenação: 'preco_c' ou 'descricao_c' ou 'estoque_c'");
             System.out.println("\tcriterio de filtragem: 'todos' ou 'estoque_menor_igual' ou 'categoria_igual'");
             System.out.println("\tparâmetro de filtragem: argumentos adicionais necessários para a filtragem");
-            System.out.println("\topções de formatação: 'negrito' e/ou 'italico'");
+            System.out.println("\tparâmetro de filtragem: argumentos adicionais necessários para a filtragem");
+            System.out.println("\tcaminho do arquivo: caminho do arquivo CSV contendo os produtos a partir da pasta raiz do programa");
             System.out.println();
             System.exit(1);
         }
 
-        //Algoritmo opcao_algoritmo = AlgoritmoFromString.stringToAlgoritmo(args[0]) ;
-        List <Produto> produtos = LeitorCSV.csvReader();
 
-        CriterioOrdenacao opcao_criterio_ord = CriterioFromString.stringToCriterio(args[1]);
-        String opcao_parametro_filtro = args[3];
-        Filtro opcao_criterio_filtro = FiltroFromString.StringToFiltro(args[2], opcao_parametro_filtro);
-        Algoritmo opcao_algoritmo = AlgoritmoFromString.stringToAlgoritmo(args[0], produtos, opcao_criterio_ord ) ;
-
-
-        String [] opcoes_formatacao = new String[2];
-        opcoes_formatacao[0] = args.length > 4 ? args[4] : null;
-        opcoes_formatacao[1] = args.length > 5 ? args[5] : null;
-        int formato = FORMATO_PADRAO;
-
-        for(int i = 0; i < opcoes_formatacao.length; i++) {
-
-            String op = opcoes_formatacao[i];
-            formato |= (op != null ? op.equals("negrito") ? FORMATO_NEGRITO : (op.equals("italico") ? FORMATO_ITALICO : 0) : 0);
+        else {
+            produtos = LeitorCSV.csvReader(args[4]);
+            opcao_criterio_ord = CriterioFromString.stringToCriterio(args[1]);
+            opcao_parametro_filtro = args[3];
+            opcao_criterio_filtro = FiltroFromString.StringToFiltro(args[2], opcao_parametro_filtro);
+            opcao_algoritmo = AlgoritmoFromString.stringToAlgoritmo(args[0], produtos, opcao_criterio_ord ) ;
         }
-
-
 
         GeradorDeRelatorios gdr = new GeradorDeRelatorios(
                 opcao_algoritmo,
                 opcao_criterio_ord,
                 opcao_criterio_filtro,
                 opcao_parametro_filtro,
-                formato,
                 produtos
         );
-
         try{
             gdr.geraRelatorio("saida.html");
         }
         catch(IOException e){
-
             e.printStackTrace();
         }
     }
