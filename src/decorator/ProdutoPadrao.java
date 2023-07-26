@@ -1,4 +1,4 @@
-package decorator;
+package src.decorator;
 import java.text.NumberFormat;
 
 public class ProdutoPadrao implements Produto {

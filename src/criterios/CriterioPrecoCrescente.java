@@ -1,5 +1,5 @@
-package criterios;
-import decorator.Produto;
+package src.criterios;
+import src.decorator.Produto;
 public class CriterioPrecoCrescente implements CriterioOrdenacao{
     @Override
     public int comparar(Produto p1, Produto p2) {

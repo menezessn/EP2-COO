@@ -1,15 +1,15 @@
-package algoritmos;
-import decorator.Produto;
-import criterios.CriterioOrdenacao;
+package src.algoritmos;
+import src.decorator.Produto;
+import src.criterios.CriterioOrdenacao;
 
 import java.util.List;
 
-public class QuickSort implements Algoritmo{
+public class AlgoritmoQuickSort implements Algoritmo{
 
     private List<Produto> produtos;
     private CriterioOrdenacao criterio;
 
-    public QuickSort(List<Produto> produtos, CriterioOrdenacao criterio) {
+    public AlgoritmoQuickSort(List<Produto> produtos, CriterioOrdenacao criterio) {
         this.produtos = produtos;
         this.criterio = criterio;
         ordena(0, produtos.size() - 1 );
