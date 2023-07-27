@@ -4,7 +4,6 @@ import src.algoritmos.Algoritmo;
 import src.criterios.CriterioOrdenacao;
 import java.io.PrintWriter;
 import java.io.IOException;
-import static src.Option.*;
 import java.util.List;
 import src.decorator.Produto;
 import src.filtros.Filtro;

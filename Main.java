@@ -11,16 +11,15 @@ import src.filtros.Filtro;
 import src.filtros.FiltroFromString;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.List;
-import static src.Option.*;
 
 
-import static src.GeradorDeRelatorios.*;
+
 
 
 public class Main {
-    public static void main(String [] args) throws IOException {
+    public static void main(String [] args)  {
         List <Produto> produtos = null;
         CriterioOrdenacao opcao_criterio_ord = null ;
         String opcao_parametro_filtro =null;
