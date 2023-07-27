@@ -40,7 +40,7 @@ public class Main {
             System.out.println("\tjava Main.java <algoritmo> <critério de ordenação> <critério de filtragem> <parâmetro de filtragem> <caminho do arquivo CSV>");
             System.out.println("Onde:");
             System.out.println("\talgoritmo: 'quick' ou 'insertion'");
-            System.out.println("\tcriterio de ordenação: 'preco_c', 'descricao_c', 'estoque_d', preco_d', 'descricao_d' ou 'estoque_d' ");
+            System.out.println("\tcriterio de ordenação: 'preco_c', 'descricao_c', 'estoque_c', preco_d', 'descricao_d' ou 'estoque_d' ");
             System.out.println("\tcriterio de filtragem: 'todos' ou 'estoque_menor_igual' ou 'categoria_igual' ou 'seleciona_intervalo' ou 'descricao_contem' ");
             System.out.println("\tparâmetro de filtragem: argumentos adicionais necessários para a filtragem, caso use intervalo, separe por / (barra) ");
             System.out.println("\tcaminho do arquivo: caminho do arquivo CSV contendo os produtos a partir da pasta raiz do programa");
