@@ -43,17 +43,16 @@ public class LeitorCSV {
 				String cor = campos[7];
 			
                 Produto produto = new ProdutoPadrao(id, descricao, categoria, qtdEstoque,preco);
-                produto = new CorProduto(produto, cor); // Decorator de cor
-
+		    
                 if(negrito) {
                     
-                    produto = new ProdutoNegrito(produto);
+                    produto = new ProdutoNegrito(produto, cor);
                 }
                 if(italico) {
-                    produto = new ProdutoItalico(produto);
+                    produto = new ProdutoItalico(produto, cor);
                 }
                 if(negrito && italico) {
-                    produto = new ProdutoItaeNeg(produto);
+                    produto = new ProdutoItaeNeg(produto, cor);
                 }
                 produtos.add(produto);
 
