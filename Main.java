@@ -37,7 +37,7 @@ public class Main {
         } else if(args.length < 5 ){
 
             System.out.println("Uso:");
-            System.out.println("\tjava " + GeradorDeRelatorios.class.getName() + " <algoritmo> <critério de ordenação> <critério de filtragem> <parâmetro de filtragem> <caminho do arquivo CSV>");
+            System.out.println("\tjava Main.java <algoritmo> <critério de ordenação> <critério de filtragem> <parâmetro de filtragem> <caminho do arquivo CSV>");
             System.out.println("Onde:");
             System.out.println("\talgoritmo: 'quick' ou 'insertion'");
             System.out.println("\tcriterio de ordenação: 'preco_c', 'descricao_c', 'estoque_d', preco_d', 'descricao_d' ou 'estoque_d' ");
